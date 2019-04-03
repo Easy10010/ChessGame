@@ -1,0 +1,358 @@
+﻿:root {
+  --piece_background: url(piece_background.png);
+  --checeboard_background: url(checeboard_background.png);
+}
+
+@font-face {
+    font-family: piece_font;
+    font-style: normal;
+    src: url(font.otf);
+}
+#chessboard *{
+    box-sizing: border-box;
+}
+#chessboard{
+    display: inline-block;
+    /*background: burlywood;*/
+    position: relative;
+}
+#chessboard > .out_border{
+    position: absolute;
+    left: 7.5px;
+    top: 7.5px;
+    width: 97%;
+    height: 89%;
+    border: 4px solid;
+
+    /*background: burlywood;*/
+    background: var(--checeboard_background);
+}
+.chessboard{
+    padding: 0;
+    font-size: 0;
+    display: inline-block;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+.chessboard-piece{
+    width: 50px;
+    height: 50px;
+    border: 1px solid;
+    display: inline-flex;
+    position: relative;
+    /*transition: 4s;*/
+}
+.chessboard > li > div:nth-last-child(1),
+.chessboard > li:nth-last-child(1) > div{
+    border: 1px solid transparent;
+}
+.chessboard > li > div.chessboard-piece:first-child{
+    border-left: 2px solid;
+}
+.chessboard > li > div.chessboard-piece:nth-last-child(2){
+    border-right: 2px solid;
+}
+.chessboard > li:nth-child(5) > div.chessboard-piece:nth-last-child(2),
+.chessboard > li:nth-child(5) > div.chessboard-piece:nth-last-child(3){
+    border-right: 0px;
+}
+.chessboard > li:last-child > div.chessboard-piece:first-child,
+.chessboard > li:last-child > div.chessboard-piece:nth-last-child(2){
+    border-left: 0px;
+    border-right: 0px;
+}
+div.piece{
+    background: var(--piece_background);
+    background-color: #e1ac53;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-51%,-51%);
+    justify-content: center;
+    align-content: center;
+    display: flex;
+    z-index: 2;
+    /*transition: .8s;*/
+}
+/* 每个棋子都有一个圆形的黑色边框 */
+div.piece::before{
+    align-self: center;
+    content: ' ';
+    border: 2px solid rgba(0,0,0,0.7);
+    border-radius: 50%;
+    width: 80%;
+    height: 80%;
+    z-index: 6;
+}
+/* 指定棋子上的字的样式 */
+div.piece::after{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-family: piece_font;
+    left: 0;
+    top: 0;
+}
+
+div.piece.red::after{color: red;}
+div.piece.black::after{color: black;}
+
+div.piece.car::after{content: '車';}
+div.piece.horse::after{content: '馬';}
+div.piece.knight::after{content: '士';}
+div.piece.gun::after{content: '炮';}
+
+div.piece.black.soldier::after{content: '卒';}
+div.piece.red.soldier::after{content: '兵';}
+div.piece.black.elephant::after{content: '象';}
+div.piece.red.elephant::after{content: '相';}
+div.piece.black.king::after{content: '將';}
+div.piece.red.king::after{content: '帥';}
+/* 当棋子被选中时的动画 */
+div.piece.selecting{
+    animation:piece_selecting .4s linear;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+@keyframes piece_selecting{
+    0%{opacity:1;}
+    100%{opacity:0.5;}
+}
+/* 棋子是空位时 */
+div.piece.empty{
+    opacity: 0;
+}
+
+
+
+/* 修饰棋盘 */
+.chessboard > li{
+    position: relative;
+}
+/* 棋盘king行走区域的斜线 */
+.chessboard_modify_slash::before{
+    content: ' ';
+    position: absolute;
+    width: 141.5%;
+    height: 141.5%;
+    border-top: 1px solid;
+    transform-origin: top left;
+    transform: rotate(45deg);
+    z-index: 1;
+}
+/* 棋盘king行走区域的反斜线 */
+.chessboard_modify_backslash::before{
+    content: ' ';
+    position: absolute;
+    width: 141.5%;
+    height: 141.5%;
+    border-top: 1px solid;
+    transform: rotate(-45deg)translate(0%,28%);
+    z-index: 1;
+}
+/* 棋盘上特殊位置上的折角 */
+.chessboard_modify_4::after{
+    position: absolute;
+    content: ' ';
+    right: 5%;
+    bottom: 5%;
+    width: 20%;
+    height: 20%;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    z-index: 1;
+}
+.chessboard_modify_3::after{
+    position: absolute;
+    content: ' ';
+    left: 5%;
+    bottom: 5%;
+    width: 20%;
+    height: 20%;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    z-index: 1;
+}
+.chessboard_modify_2::after{
+    position: absolute;
+    content: ' ';
+    right: 5%;
+    top: 5%;
+    width: 20%;
+    height: 20%;
+    border-top: 1px solid;
+    border-right: 1px solid;
+    z-index: 1;
+}
+.chessboard_modify_1::after{
+    position: absolute;
+    content: ' ';
+    left: 5%;
+    top: 5%;
+    width: 20%;
+    height: 20%;
+    border-top: 1px solid;
+    border-left: 1px solid;
+    z-index: 1;
+}
+.chessboard_modify_14::before{
+    position: absolute;
+    content: ' ';
+    left: 5%;
+    top: 5%;
+    width: 20%;
+    height: 20%;
+    border-top: 1px solid;
+    border-left: 1px solid;
+    z-index: 1;
+}
+.chessboard_modify_14::after{
+    position: absolute;
+    content: ' ';
+    right: 5%;
+    bottom: 5%;
+    width: 20%;
+    height: 20%;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    z-index: 1;
+}
+.chessboard_modify_23::before{
+    position: absolute;
+    content: ' ';
+    right: 5%;
+    top: 5%;
+    width: 20%;
+    height: 20%;
+    border-top: 1px solid;
+    border-right: 1px solid;
+    z-index: 1;
+}
+.chessboard_modify_23::after{
+    position: absolute;
+    content: ' ';
+    left: 5%;
+    bottom: 5%;
+    width: 20%;
+    height: 20%;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    z-index: 1;
+}
+/* 楚河汉界位置 */
+.chessboard_modify_center{
+    height: 100%;
+    width: 88.8888889%;
+    display: inline-flex;
+    justify-content: space-around;
+    position: absolute;
+    border-left: 2px solid;
+    border-right: 2px solid;
+    z-index: 1;
+}
+.chessboard_modify_center::before{
+    content: '楚 河';
+    height: 100%;
+    display: block;
+    font-family: piece_font;
+    font-size: 40px;
+    line-height: 40px;
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.chessboard_modify_center::after{
+    content: '漢 界';
+    height: 100%;
+    display: block;
+    font-family: piece_font;
+    font-size: 40px;
+    line-height: 40px;
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.chessboard_modify_center.rotate::before{  /*楚河汉界旋转文字*/
+     writing-mode: lr-tb;
+     width: 0px;
+     transform: rotate(-90deg);
+ }
+ .chessboard_modify_center.rotate::after{  /*楚河汉界旋转文字*/
+      writing-mode: lr-tb;
+      width: 0px;
+      transform: rotate(90deg);
+  }
+.chessboard_modify_center_noborder{
+    border: 1px solid transparent;
+    z-index: 1;
+}
+.chessboard_modify_center_height{
+    height: 25px;
+    z-index: 1;
+}
+
+/*提示点*/
+@keyframes tip_point{
+    0%{
+        transform: translate(-51%,-51%)scale(1,1);
+    }
+    100%{
+        transform: translate(-51%,-51%)scale(0.75,0.75);
+    }
+}
+ div.piece.tip_point_right{
+    opacity: 1;
+    background: transparent;
+    box-shadow: none;
+    animation:tip_point 2s linear;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+ }
+ div.piece.tip_point_right::after{
+    background: var(--checeboard_background);
+    border-radius: 50%;
+ }
+ div.piece.tip_point_right::before{
+    border-radius: 0;
+    width: 50%;
+    height: 50%;
+    transform: rotate(405deg);
+    border: 2px dashed rgba(0,0,0,0.7);
+    z-index: 3;
+    transition: .8s;
+    position: relative;
+ }
+ div.piece.tip_point_right.tip_point_to_eat::before{
+    /*当可以吃对方时边框颜色*/
+    border: 2px dashed green;
+ }
+ div.piece.tip_point_right.tip_point_to_be_eat::before{
+    /*当会被对方吃时边框颜色*/
+    border: 2px dashed red;
+ }
+ div.piece.tip_point_right.tip_point_to_eat.tip_point_to_be_eat::before{
+    border-top: 2px dashed red;
+    border-right: 2px dashed red;
+    border-bottom: 2px dashed green;
+    border-left: 2px dashed green;
+ }
+/*棋子移动过后的痕迹*/
+.chessboard-piece.moved_piece_trace::before{
+    content: ' ';
+    width: 90%;
+    height: 90%;
+    border: 3px dashed red;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%,-50%);
+    z-index: 3;
+    pointer-events: none;
+}
