@@ -1,10 +1,10 @@
-import io from 'socket.io-client'
+﻿import io from 'socket.io-client'
 import Vue from 'vue'
 import vuex from './vuex_store'
 import event_bus from './event_bus'
 
 
-var socket_url = `${location.origin}:8081/`;
+var socket_url = `${location.hostname}:8081/`;
 var socket = io(socket_url);
 console.info(socket_url)
 
